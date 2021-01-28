@@ -5,6 +5,7 @@ namespace Bolt;
 use Bolt\Collection\Arr;
 use Bolt\Collection\Bag;
 use Bolt\Common\Deprecated;
+use Dotenv\Dotenv;
 use Bolt\Controller\Zone;
 use Bolt\Filesystem\Exception\FileNotFoundException;
 use Bolt\Filesystem\Exception\IOException;
@@ -847,6 +848,19 @@ class Config
 
         // Merge in defaults
         $params = array_replace($defaults, $params);
+
+        // Load environment variables
+        $dotenv = Dotenv::create(__DIR__.'/../../../../');
+        $dotenv->load();
+
+        // Merge any environment variables
+        foreach (['user', 'password', 'host', 'port', 'dbname'] as $param) {
+            if (getenv('DATABASE_'.strtoupper($param)) === false) {
+                continue;
+            }
+
+            $params[$param] = getenv('DATABASE_'.strtoupper($param));
+        }
 
         // Filter out invalid keys
         $validKeys = [

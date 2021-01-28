@@ -76,6 +76,7 @@
         "tdammers/htmlmaid": "^0.7",
         "twig/twig": "^1.42",
         "ua-parser/uap-php": "^3.9",
+        "vlucas/phpdotenv": "^3.3",
         "guzzlehttp/psr7": "1.5.*"
     },
     "require-dev": {
